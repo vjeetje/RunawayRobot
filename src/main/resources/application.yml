@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: local
+
+runaway-robot:
+  url:
+    requestPuzzle: http://www.hacker.org/runaway/
+    submitSolution: ${runaway-robot.url.requestPuzzle}index.php?path=%s
+    goToLevel: ${runaway-robot.url.requestPuzzle}index.php?gotolevel=%d&go=Go+To+Level
+  progress:
+    level: 0
