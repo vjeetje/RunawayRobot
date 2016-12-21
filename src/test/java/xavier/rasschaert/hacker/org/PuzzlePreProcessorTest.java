@@ -22,7 +22,8 @@ public class PuzzlePreProcessorTest {
                 {0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0}
         };
-        Puzzle puzzle = new Puzzle(10, 3, 5, new Board(terrainInput));
+
+        Puzzle puzzle = new Puzzle(1, 3, 5, new Board(terrainInput));
         puzzlePreProcessor.preprocess(puzzle);
 
         int[][] terrainExpectedOutput = {
@@ -34,6 +35,66 @@ public class PuzzlePreProcessorTest {
                 {1, 1, 1, 0, 0, 0, 0, 0},
                 {1, 1, 1, 0, 0, 0, 0, 0},
                 {1, 1, 1, 0, 0, 0, 0, 0}
+        };
+
+        Assert.assertEquals(new IntegerArray2D(terrainExpectedOutput), puzzle.getBoard().getTerrain());
+    }
+
+    @Test
+    public void testPreProcessComplexPuzzle() {
+        int[][] terrainInput = {
+                {0, 0, 0, 0, 1, 1, 0, 1},
+                {0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 1, 0, 0, 1, 0, 0, 1},
+                {0, 0, 0, 1, 0, 0, 1, 0},
+                {0, 1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 1, 0, 1, 1, 0, 0},
+                {0, 1, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 1}
+        };
+
+        Puzzle puzzle = new Puzzle(2, 3, 5, new Board(terrainInput));
+        puzzlePreProcessor.preprocess(puzzle);
+
+        int[][] terrainExpectedOutput = {
+                {0, 0, 0, 1, 1, 1, 1, 1},
+                {0, 0, 0, 1, 1, 1, 1, 1},
+                {0, 1, 0, 1, 1, 1, 1, 1},
+                {0, 0, 0, 1, 1, 1, 1, 1},
+                {1, 1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 0, 1, 1, 0, 0},
+                {1, 1, 1, 0, 0, 1, 0, 0},
+                {1, 1, 1, 0, 0, 1, 0, 0}
+        };
+
+        Assert.assertEquals(new IntegerArray2D(terrainExpectedOutput), puzzle.getBoard().getTerrain());
+    }
+
+    @Test
+    public void testPreProcessImpossiblePuzzle() {
+        int[][] terrainInput = {
+                {0, 0, 0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 1, 0, 0, 0, 1, 0, 0},
+                {1, 0, 1, 0, 1, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0}
+        };
+
+        Puzzle puzzle = new Puzzle(3, 3, 5, new Board(terrainInput));
+        puzzlePreProcessor.preprocess(puzzle);
+
+        int[][] terrainExpectedOutput = {
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1}
         };
 
         Assert.assertEquals(new IntegerArray2D(terrainExpectedOutput), puzzle.getBoard().getTerrain());
