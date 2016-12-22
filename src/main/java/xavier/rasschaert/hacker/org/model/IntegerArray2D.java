@@ -1,5 +1,7 @@
 package xavier.rasschaert.hacker.org.model;
 
+import lombok.NonNull;
+
 import java.util.Arrays;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
@@ -8,7 +10,7 @@ import java.util.stream.IntStream;
 public class IntegerArray2D {
     private int[][] array;
 
-    public IntegerArray2D(int[][] array) {
+    public IntegerArray2D(@NonNull int[][] array) {
         this.array = deepCopy(array);
     }
 
@@ -22,7 +24,7 @@ public class IntegerArray2D {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof IntegerArray2D) {
+        if (object != null && object instanceof IntegerArray2D) {
             return IntStream.range(0, getWidth() - 1)
                     .allMatch(i -> Arrays.equals(getColumn(i), ((IntegerArray2D) object).getColumn(i)));
         } else {
@@ -36,23 +38,21 @@ public class IntegerArray2D {
         return new IntegerArray2D(deepCopy(array));
     }
 
-    private int[][] deepCopy(int[][] array) {
-        int[][] copy = new int[array.length][];
-        for (int i = 0; i < array.length; i++) {
-            int[] column = array[i];
-            copy[i] = new int[column.length];
-            System.arraycopy(column, 0, copy[i], 0, column.length);
-        }
+    private int[][] deepCopy(@NonNull int[][] array) {
+        int width = array.length;
+        int height = array[0].length;
+        int[][] copy = new int[width][height];
+        IntStream.range(0, width)
+                .forEach(i -> System.arraycopy(array[i], 0, copy[i], 0, height));
         return copy;
     }
 
     public IntegerArray2D transpose() {
-        int[][] transpose = new int[getHeight()][getWidth()];
-        for (int i = 0; i < getHeight(); i++) {
-            for (int j = 0; j < getWidth(); j++) {
-                transpose[i][j] = array[j][i];
-            }
-        }
+        int[][] transpose = IntStream.range(0, getHeight())
+                .mapToObj(i -> IntStream.range(0, getWidth())
+                        .map(j -> array[j][i])
+                        .toArray())
+                .toArray(int[][]::new);
         return new IntegerArray2D(transpose);
     }
 
@@ -72,15 +72,11 @@ public class IntegerArray2D {
         return pprint(String::valueOf, " ");
     }
 
-    public String pprint(IntFunction<String> printValue, String separator) {
+    public String pprint(@NonNull IntFunction<String> printValue, @NonNull String separator) {
         return Arrays.stream(array)
-                .map(array -> printArray(array, printValue, separator))
+                .map(array -> IntStream.of(array)
+                        .mapToObj(printValue)
+                        .collect(Collectors.joining(separator)))
                 .collect(Collectors.joining(System.lineSeparator()));
-    }
-
-    private String printArray(int[] values, IntFunction<String> printValue, String separator) {
-        return IntStream.of(values)
-                .mapToObj(printValue)
-                .collect(Collectors.joining(separator));
     }
 }

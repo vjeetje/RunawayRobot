@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import xavier.rasschaert.hacker.org.model.Puzzle;
 import xavier.rasschaert.hacker.org.network.DataFetcher;
+import xavier.rasschaert.hacker.org.properties.UrlProperties;
 
 import javax.inject.Inject;
 
@@ -14,7 +15,7 @@ public class PuzzleSolver implements CommandLineRunner {
     private final Logger LOGGER = LoggerFactory.getLogger(PuzzleSolver.class);
 
     @Inject
-    private RunawayRobotProperties runawayRobotProperties;
+    private UrlProperties urlProperties;
     @Inject
     private DataFetcher dataFetcher;
     @Inject
@@ -22,7 +23,8 @@ public class PuzzleSolver implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        dataFetcher.goToLevel(runawayRobotProperties.getProgress().getLevel());
+        // todo 'mvn test' doesn't work anymore because of encryption
+        //dataFetcher.goToLevel(urlProperties.getProgress().getLevel());
         Puzzle puzzle = dataFetcher.receivePuzzle();
         LOGGER.info(puzzle.toString());
         puzzlePreProcessor.preprocess(puzzle);

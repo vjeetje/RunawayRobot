@@ -1,11 +1,15 @@
 spring:
   profiles:
-    active: local
+    active: live
 
-runaway-robot:
+runawayRobot:
   url:
-    requestPuzzle: http://www.hacker.org/runaway/
-    submitSolution: ${runaway-robot.url.requestPuzzle}index.php?path=%s
-    goToLevel: ${runaway-robot.url.requestPuzzle}index.php?gotolevel=%d&go=Go+To+Level
+    requestPuzzle: http://www.hacker.org/runaway/index.php?name=${runawayRobot.credentials.submit.username}&spw=${runawayRobot.credentials.submit.safePassword}
+    submitSolution: ${runaway-robot.url.requestPuzzle}&path=%s
+    goToLevel: ${runaway-robot.url.requestPuzzle}&gotolevel=%d&go=Go+To+Level
   progress:
     level: 0
+  credentials:
+    submit:
+      username: ENC(9cUMFaDPBeXLuqhpM4fxFA==)
+      safePassword: ENC(XEMg3D159EKPxVDcGcU239Pp18tm3MVJW2DstaOGB1DHuf8XM/pxu4dAiLbiB7gR)
