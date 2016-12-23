@@ -13,12 +13,12 @@ public class Position {
     /**
      * The x-coordinate
      */
-    private int x;
+    private final int x;
 
     /**
      * The y-coordinate
      */
-    private int y;
+    private final int y;
 
     /**
      * get the 4 neighbours in clockwise order starting from the top neighbour
@@ -48,5 +48,10 @@ public class Position {
 
     public Position getBottomNeighbour() {
         return new Position(x, y + 1);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%d,%d)", x, y);
     }
 }

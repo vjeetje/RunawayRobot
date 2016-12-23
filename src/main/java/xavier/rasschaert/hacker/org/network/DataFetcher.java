@@ -24,7 +24,7 @@ public interface DataFetcher {
     void goToLevel(int level) throws IOException;
 
     /**
-     * request the {@link Puzzle puzzle} of the current level
+     * request the {@link Puzzle} of the current level
      *
      * @return the {@link Puzzle}
      * @throws IOException    on connection problem

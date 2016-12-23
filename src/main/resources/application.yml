@@ -2,6 +2,10 @@ spring:
   profiles:
     active: live
 
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
 runawayRobot:
   url:
     requestPuzzle: http://www.hacker.org/runaway/index.php?name=${runawayRobot.credentials.submit.username}&spw=${runawayRobot.credentials.submit.safePassword}

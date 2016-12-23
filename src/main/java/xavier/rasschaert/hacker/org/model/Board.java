@@ -22,17 +22,17 @@ public class Board {
      * 0: robot can use this location
      * >0: robot cannot use this location
      */
-    private IntegerArray2D terrain;
+    private final IntegerArray2D terrain;
 
     /**
      * number of squares on the horizontal axis
      */
-    private int width;
+    private final int width;
 
     /**
      * number of squares on the vertical axis
      */
-    private int height;
+    private final int height;
 
     public Board(@NonNull int[][] terrain) {
         this.terrain = new IntegerArray2D(terrain);

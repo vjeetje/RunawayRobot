@@ -9,22 +9,22 @@ public class Puzzle {
     /**
      * the level
      */
-    private int level;
+    private final int level;
 
     /**
      * the minimum number of instructions to loop
      */
-    private int minMoves;
+    private final int minMoves;
 
     /**
      * the maximum number of instructions to loop
      */
-    private int maxMoves;
+    private final int maxMoves;
 
     /**
      * the board
      */
-    private Board board;
+    private final Board board;
 
     @Override
     public String toString() {
