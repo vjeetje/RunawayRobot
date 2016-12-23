@@ -10,25 +10,20 @@ public interface DataFetcher {
      * submit the solution for the current puzzle
      *
      * @param path the path the robot will repeat to solve the puzzle
-     * @return true if the solution was accepted
+     * @return the next {@link Puzzle} to solve
      * @throws IOException on connection problem
+     * @throws ParseException on exception parsing puzzle
      */
-    boolean submitPuzzle(String path) throws IOException;
+    Puzzle submitPuzzle(String path) throws IOException, ParseException;
 
     /**
      * change the level of the puzzle to solve
+     * and return the puzzle of that level
      *
      * @param level the level of the puzzle
+     * @return the {@link Puzzle} of the given level
      * @throws IOException on connection problem
+     * @throws ParseException on exception parsing puzzle
      */
-    void goToLevel(int level) throws IOException;
-
-    /**
-     * request the {@link Puzzle} of the current level
-     *
-     * @return the {@link Puzzle}
-     * @throws IOException    on connection problem
-     * @throws ParseException on malformed response
-     */
-    Puzzle receivePuzzle() throws IOException, ParseException;
+    Puzzle receivePuzzle(int level) throws IOException, ParseException;
 }

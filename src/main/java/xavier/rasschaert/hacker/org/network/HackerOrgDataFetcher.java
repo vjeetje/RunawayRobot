@@ -3,7 +3,6 @@ package xavier.rasschaert.hacker.org.network;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import xavier.rasschaert.hacker.org.PuzzleParser;
 import xavier.rasschaert.hacker.org.model.Puzzle;
 import xavier.rasschaert.hacker.org.properties.UrlProperties;
@@ -19,24 +18,23 @@ public class HackerOrgDataFetcher implements DataFetcher {
     private PuzzleParser puzzleParser;
 
     @Override
-    public boolean submitPuzzle(String path) throws IOException {
-        Document doc = Jsoup.connect(urlProperties.getSubmitSolutionUrl(path)).get();
-        //Elements newsHeadlines = doc.select("#mp-itn b a");
-        throw new NotImplementedException();
+    public Puzzle submitPuzzle(String path) throws IOException, ParseException {
+        Document doc = Jsoup.connect(urlProperties.getSubmitSolution(path)).get();
+        return getPuzzle(doc);
     }
 
     @Override
-    public void goToLevel(int level) throws IOException {
-        throw new NotImplementedException();
+    public Puzzle receivePuzzle(int level) throws IOException, ParseException {
+        Document doc = Jsoup.connect(urlProperties.getGoToLevel(level)).get();
+        return getPuzzle(doc);
     }
 
-    @Override
-    public Puzzle receivePuzzle() throws IOException, ParseException {
-        Document doc = Jsoup.connect(urlProperties.getRequestPuzzle()).get();
-        Element flashVarsElement = doc.select("object>param[name=FlashVars]").first();
-        if (flashVarsElement == null) {
+    private Puzzle getPuzzle(Document doc) throws ParseException {
+        Element el = doc.select("object>param[name=FlashVars]").first();
+        if (el == null) {
             throw new ParseException("No object with param FlashVars was found.", 0);
+        } else {
+            return puzzleParser.parsePuzzle(el.val());
         }
-        return puzzleParser.parsePuzzle(flashVarsElement.val());
     }
 }

@@ -9,8 +9,8 @@ jasypt:
 runawayRobot:
   url:
     requestPuzzle: http://www.hacker.org/runaway/index.php?name=${runawayRobot.credentials.submit.username}&spw=${runawayRobot.credentials.submit.safePassword}
-    submitSolution: ${runaway-robot.url.requestPuzzle}&path=%s
-    goToLevel: ${runaway-robot.url.requestPuzzle}&gotolevel=%d&go=Go+To+Level
+    submitSolution: ${runawayRobot.url.requestPuzzle}&path=%s
+    goToLevel: ${runawayRobot.url.requestPuzzle}&gotolevel=%d&go=Go+To+Level
   progress:
     level: 0
   credentials:

@@ -28,11 +28,11 @@ public class UrlProperties {
      */
     private String goToLevel;
 
-    public String getSubmitSolutionUrl(String path) {
+    public String getSubmitSolution(String path) {
         return String.format(submitSolution, path);
     }
 
-    public String getGoToLevelUrl(int level) {
+    public String getGoToLevel(int level) {
         return String.format(goToLevel, level);
     }
 }

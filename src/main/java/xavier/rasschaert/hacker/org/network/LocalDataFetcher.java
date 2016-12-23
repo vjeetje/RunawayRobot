@@ -8,17 +8,16 @@ import java.text.ParseException;
 
 public class LocalDataFetcher implements DataFetcher {
     @Override
-    public boolean submitPuzzle(String path) throws IOException {
-        return true;
+    public Puzzle submitPuzzle(String path) throws IOException, ParseException {
+        return getPuzzle();
     }
 
     @Override
-    public void goToLevel(int level) throws IOException {
-
+    public Puzzle receivePuzzle(int level) throws IOException, ParseException {
+        return getPuzzle();
     }
 
-    @Override
-    public Puzzle receivePuzzle() throws IOException, ParseException {
+    private Puzzle getPuzzle() {
         int[][] terrain = {
                 {0, 0, 0, 0, 1, 1, 0, 1},
                 {0, 0, 0, 0, 0, 1, 0, 0},
