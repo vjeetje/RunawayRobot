@@ -69,7 +69,7 @@ public class Board {
     /**
      * get the 4 neighbours in clockwise order starting from the top neighbour
      *
-     * @return
+     * @return the neighbours of the position
      */
     public List<Optional<Position>> getNeighbours(@NonNull Position p) {
         return Arrays.asList(getTopNeighbour(p), getRightNeighbour(p), getBottomNeighbour(p), getLeftNeighbour(p));

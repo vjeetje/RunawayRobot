@@ -25,6 +25,13 @@ public class PuzzleParser {
     private static final int INDEX_BOARD_HEIGHT = 4;
     private static final int INDEX_LEVEL = 5;
 
+    /**
+     * parses a raw String representation of a puzzle to a {@link Puzzle}.
+     *
+     * @param rawPuzzle the raw puzzle String
+     * @return the {@link Puzzle}
+     * @throws ParseException on a parse exception
+     */
     public Puzzle parsePuzzle(String rawPuzzle) throws ParseException {
         List<String> parameters = parseParameters(rawPuzzle);
         int level = Integer.valueOf(parameters.get(INDEX_LEVEL));

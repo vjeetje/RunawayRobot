@@ -9,8 +9,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PuzzleIterator implements Iterator<Position> {
-
+    /**
+     * the puzzle to iterate over
+     */
     private final Puzzle puzzle;
+
+    /**
+     * iterator over the positions determining the sub boards by their bottom right corner.
+     * The sub board is defined by the top left corner of the puzzle and the position of the iterator.
+     */
     private final Iterator<Position> iterator;
 
     public PuzzleIterator(Puzzle puzzle) {

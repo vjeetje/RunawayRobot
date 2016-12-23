@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class IntegerArray2D {
+    /**
+     * the two dimensional array of integers
+     */
     private final int[][] array;
 
     public IntegerArray2D(@NonNull int[][] array) {

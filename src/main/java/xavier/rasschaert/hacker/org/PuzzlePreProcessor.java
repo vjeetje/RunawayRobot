@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class PuzzlePreProcessor {
-
+    /**
+     * Mark positions that can never be reached as impassible.
+     *
+     * @param puzzle the puzzle
+     */
     public void preprocess(Puzzle puzzle) {
         Board board = puzzle.getBoard();
         Set<Position> unprocessedPositions = board.getSafePositions();
