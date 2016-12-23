@@ -1,4 +1,4 @@
-package xavier.rasschaert.hacker.org;
+package xavier.rasschaert.hacker.org.network;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import xavier.rasschaert.hacker.org.TestApplicationConfiguration;
 import xavier.rasschaert.hacker.org.model.Puzzle;
-import xavier.rasschaert.hacker.org.network.DataFetcher;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplicationConfiguration.class)
 @ActiveProfiles({"live"})
-public class RunawayRobotApplicationIT {
+public class DataFetcherIT {
 
     @Inject
     private DataFetcher dataFetcher;
