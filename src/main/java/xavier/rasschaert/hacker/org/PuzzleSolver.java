@@ -1,5 +1,7 @@
 package xavier.rasschaert.hacker.org;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,20 +13,19 @@ import xavier.rasschaert.hacker.org.properties.UrlProperties;
 import javax.inject.Inject;
 
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class PuzzleSolver implements CommandLineRunner {
     private final Logger LOGGER = LoggerFactory.getLogger(PuzzleSolver.class);
 
-    @Inject
-    private UrlProperties urlProperties;
-    @Inject
-    private DataFetcher dataFetcher;
-    @Inject
-    private PuzzlePreProcessor puzzlePreProcessor;
+    @NonNull
+    private final UrlProperties urlProperties;
+    @NonNull
+    private final DataFetcher dataFetcher;
+    @NonNull
+    private final PuzzlePreProcessor puzzlePreProcessor;
 
     @Override
     public void run(String... args) throws Exception {
-        // todo enable constructor @inject warning
-        // todo use constructor @inject and bean configuration file
         //dataFetcher.goToLevel(urlProperties.getProgress().getLevel());
         Puzzle puzzle = dataFetcher.receivePuzzle(1);//todo add level property to start from
         LOGGER.info(puzzle.toString());
