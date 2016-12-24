@@ -1,10 +1,12 @@
-package xavier.rasschaert.hacker.org;
+package xavier.rasschaert.hacker.org.network;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
+import xavier.rasschaert.hacker.org.exception.PuzzleParseException;
 import xavier.rasschaert.hacker.org.model.Board;
+import xavier.rasschaert.hacker.org.model.IntegerArray2D;
 import xavier.rasschaert.hacker.org.model.Puzzle;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,9 +32,9 @@ public class PuzzleParser {
      *
      * @param rawPuzzle the raw puzzle String
      * @return the {@link Puzzle}
-     * @throws ParseException on a parse exception
+     * @throws PuzzleParseException on a puzzle parse exception
      */
-    public Puzzle parsePuzzle(String rawPuzzle) throws ParseException {
+    public Puzzle parsePuzzle(@NonNull String rawPuzzle) throws PuzzleParseException {
         List<String> parameters = parseParameters(rawPuzzle);
         int level = Integer.valueOf(parameters.get(INDEX_LEVEL));
         int minMoves = Integer.valueOf(parameters.get(INDEX_MIN_MOVES));
@@ -45,22 +47,22 @@ public class PuzzleParser {
         return new Puzzle(level, minMoves, maxMoves, board);
     }
 
-    private List<String> parseParameters(String rawPuzzle) throws ParseException {
+    private List<String> parseParameters(@NonNull String rawPuzzle) throws PuzzleParseException {
         Pattern pattern = Pattern.compile(REGEXP_VALID_PUZZLE);
         Matcher matcher = pattern.matcher(rawPuzzle);
         if (matcher.matches()) {
             return IntStream.rangeClosed(1, 6).mapToObj(matcher::group).collect(Collectors.toList());
         } else {
-            throw new ParseException(String.format("Not a valid puzzle: [%s]", rawPuzzle), 0);
+            throw new PuzzleParseException(String.format("Not a valid puzzle: [%s]", rawPuzzle));
         }
     }
 
-    private Board parseMap(String terrainString, int boardWidth, int boardHeight) throws ParseException {
-        int[][] values = IntStream.range(0, boardWidth)
-                .mapToObj(x -> IntStream.range(0, boardHeight)
-                        .map(y -> terrainString.charAt(x + y * boardWidth) == IMPASSABLE_LOCATION ? 1 : 0)
+    private Board parseMap(@NonNull String terrainString, int boardWidth, int boardHeight) {
+        int[][] values = IntStream.range(0, boardHeight)
+                .mapToObj(y -> IntStream.range(0, boardWidth)
+                        .map(x -> terrainString.charAt(x + y * boardWidth) == IMPASSABLE_LOCATION ? 1 : 0)
                         .toArray())
                 .toArray(int[][]::new);
-        return new Board(values);
+        return new Board(new IntegerArray2D(values), true);
     }
 }

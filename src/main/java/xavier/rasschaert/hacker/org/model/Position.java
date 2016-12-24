@@ -10,6 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Position {
+    public static final Position ORIGIN = new Position(0, 0);
+
     /**
      * The x-coordinate
      */
@@ -20,18 +22,8 @@ public class Position {
      */
     private final int y;
 
-    /**
-     * get the 4 neighbours in clockwise order starting from the top neighbour
-     *
-     * @return
-     */
-    public Position[] getNeighbours() {
-        return new Position[]{
-                getTopNeighbour(),
-                getRightNeighbour(),
-                getBottomNeighbour(),
-                getLeftNeighbour()
-        };
+    public Position add(int x, int y) {
+        return new Position(this.x + x, this.y + y);
     }
 
     public Position getLeftNeighbour() {
@@ -52,6 +44,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return String.format("(%d,%d)", x, y);
+        return String.format("(%d, %d)", x, y);
     }
 }

@@ -1,9 +1,10 @@
 package xavier.rasschaert.hacker.org.network;
 
+import lombok.NonNull;
+import xavier.rasschaert.hacker.org.exception.PuzzleParseException;
 import xavier.rasschaert.hacker.org.model.Puzzle;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 public interface DataFetcher {
     /**
@@ -12,9 +13,9 @@ public interface DataFetcher {
      * @param path the path the robot will repeat to solve the puzzle
      * @return the next {@link Puzzle} to solve
      * @throws IOException on connection problem
-     * @throws ParseException on exception parsing puzzle
+     * @throws PuzzleParseException on exception parsing puzzle
      */
-    Puzzle submitPuzzle(String path) throws IOException, ParseException;
+    Puzzle submitPuzzle(@NonNull String path) throws IOException, PuzzleParseException;
 
     /**
      * change the level of the puzzle to solve
@@ -23,7 +24,7 @@ public interface DataFetcher {
      * @param level the level of the puzzle
      * @return the {@link Puzzle} of the given level
      * @throws IOException on connection problem
-     * @throws ParseException on exception parsing puzzle
+     * @throws PuzzleParseException on exception parsing puzzle
      */
-    Puzzle receivePuzzle(int level) throws IOException, ParseException;
+    Puzzle receivePuzzle(int level) throws IOException, PuzzleParseException;
 }

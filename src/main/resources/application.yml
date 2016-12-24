@@ -12,7 +12,7 @@ runawayRobot:
     submitSolution: ${runawayRobot.url.requestPuzzle}&path=%s
     goToLevel: ${runawayRobot.url.requestPuzzle}&gotolevel=%d&go=Go+To+Level
   progress:
-    level: 0
+    level: 95
   credentials:
     submit:
       username: ENC(9cUMFaDPBeXLuqhpM4fxFA==)

@@ -1,23 +1,23 @@
-package xavier.rasschaert.hacker.org;
+package xavier.rasschaert.hacker.org.solver;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import xavier.rasschaert.hacker.org.model.Board;
 import xavier.rasschaert.hacker.org.model.Position;
-import xavier.rasschaert.hacker.org.model.Puzzle;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class PuzzlePreProcessor {
+public class PuzzlePreprocessor {
     /**
      * Mark positions that can never be reached as impassible.
      *
-     * @param puzzle the puzzle
+     * @param board the board
+     * @Param isSubBoard is the board a sub board
      */
-    public void preprocess(Puzzle puzzle) {
-        Board board = puzzle.getBoard();
-        Set<Position> unprocessedPositions = board.getSafePositions();
+    public void preprocess(@NonNull Board board, boolean isSubBoard) {
+        Set<Position> unprocessedPositions = board.getPassableLocations();
         while (!unprocessedPositions.isEmpty()) {
             Set<Position> processingPositions = new HashSet<>(unprocessedPositions);
             Iterator<Position> iterator = processingPositions.iterator();
@@ -29,7 +29,7 @@ public class PuzzlePreProcessor {
                 }
 
                 List<Optional<Position>> neighbours = board.getNeighbours(pos);
-                if (canBecomeImpassible(board, neighbours)) {
+                if (canBecomeImpassible(board, neighbours, isSubBoard)) {
                     board.markAsImpassable(pos);
                     unprocessedPositions.addAll(getPassableNeighbours(board, neighbours));
                 }
@@ -37,21 +37,28 @@ public class PuzzlePreProcessor {
         }
     }
 
-    private boolean canBecomeImpassible(Board board, List<Optional<Position>> neighbours) {
+    private boolean canBecomeImpassible(@NonNull Board board, @NonNull List<Optional<Position>> neighbours, boolean isSubBoard) {
         Optional<Position> top = neighbours.get(0);
         Optional<Position> right = neighbours.get(1);
         Optional<Position> bottom = neighbours.get(2);
         Optional<Position> left = neighbours.get(3);
 
         boolean topBlocks = !top.isPresent() || !board.isPassable(top.get());
-        boolean rightBlocks = right.isPresent() && !board.isPassable(right.get());
-        boolean bottomBlocks = bottom.isPresent() && !board.isPassable(bottom.get());
         boolean leftBlocks = !left.isPresent() || !board.isPassable(left.get());
+        boolean rightBlocks, bottomBlocks;
+        if (isSubBoard) {
+            rightBlocks = !right.isPresent() || !board.isPassable(right.get());
+            bottomBlocks = !bottom.isPresent() || !board.isPassable(bottom.get());
+        } else {
+            rightBlocks = right.isPresent() && !board.isPassable(right.get());
+            bottomBlocks = bottom.isPresent() && !board.isPassable(bottom.get());
+        }
 
-        return (leftBlocks && topBlocks && (top.isPresent() || left.isPresent())) || (rightBlocks && bottomBlocks);
+        return (leftBlocks && topBlocks && (top.isPresent() || left.isPresent())) ||
+                (rightBlocks && bottomBlocks && (bottom.isPresent() || right.isPresent()));
     }
 
-    private Set<Position> getPassableNeighbours(Board board, List<Optional<Position>> neighbours) {
+    private Set<Position> getPassableNeighbours(@NonNull Board board, @NonNull List<Optional<Position>> neighbours) {
         return neighbours.stream()
                 .filter(Optional::isPresent)
                 .map(Optional::get)
