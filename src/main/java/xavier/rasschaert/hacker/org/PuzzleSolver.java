@@ -23,6 +23,8 @@ public class PuzzleSolver implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // todo enable constructor @inject warning
+        // todo use constructor @inject and bean configuration file
         //dataFetcher.goToLevel(urlProperties.getProgress().getLevel());
         Puzzle puzzle = dataFetcher.receivePuzzle(1);//todo add level property to start from
         LOGGER.info(puzzle.toString());
