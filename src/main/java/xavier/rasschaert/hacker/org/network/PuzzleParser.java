@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 @Component
 public class PuzzleParser {
 
-    private static final String REGEXP_VALID_PUZZLE = "^FVterrainString=([\\.X]*)&FVinsMax=([\\d]*)&FVinsMin=([\\d]*)&FVboardX=([\\d]*)&FVboardY=([\\d]*)&FVlevel=([\\d]*)$";
+    private static final String REGEXP_VALID_PUZZLE = "^FVterrainString=([.X]*)&FVinsMax=([\\d]*)&FVinsMin=([\\d]*)&FVboardX=([\\d]*)&FVboardY=([\\d]*)&FVlevel=([\\d]*)$";
 
     private static final char IMPASSABLE_LOCATION = 'X';
 

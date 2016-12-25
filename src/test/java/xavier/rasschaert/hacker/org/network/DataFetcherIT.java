@@ -33,6 +33,11 @@ public class DataFetcherIT {
         Assert.assertEquals(4, puzzle.getBoard().getHeight());
     }
 
+    @Test(expected = PuzzleParseException.class)
+    public void testPuzzleRetrievalBadLevel() throws IOException, PuzzleParseException {
+        dataFetcher.receivePuzzle(-1);
+    }
+
     @Test
     public void testPuzzleSolutionSubmissionLevel1() throws IOException, PuzzleParseException {
         dataFetcher.receivePuzzle(1);
@@ -49,6 +54,8 @@ public class DataFetcherIT {
         throw new IOException(String.format("Not one of [%s] was accepted as a solution", Arrays.toString(solutions)));
     }
 
-    // todo write that expects and triggers a puzzleparseexception
-
+    @Test(expected = PuzzleParseException.class)
+    public void testPuzzleSolutionSubmissionBadLevel() throws IOException, PuzzleParseException {
+        dataFetcher.submitPuzzle("INVALID_PATH");
+    }
 }

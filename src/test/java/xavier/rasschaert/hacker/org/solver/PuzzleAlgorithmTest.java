@@ -11,16 +11,15 @@ public class PuzzleAlgorithmTest {
     private final PuzzlePreprocessor puzzlePreprocessor = new PuzzlePreprocessor();
     private final PuzzleAlgorithm puzzleAlgorithm = new PuzzleAlgorithm(puzzlePreprocessor);
 
-    // todo rewrite test with finished algorithm implementation
     @Test
     public void testAlgorithmWithOneDimensionalSubBoard() throws PuzzleNoSolutionException {
         int[][] terrainInput = {
-                {0, 0, 0, 0, 0, 1, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 1, 0, 0, 1, 0, 0},
-                {0, 0, 0, 0, 0, 1, 0, 1},
-                {1, 0, 0, 1, 0, 0, 1, 0},
-                {0, 0, 0, 1, 0, 0, 1, 1},
-                {1, 0, 0, 0, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0, 1, 0, 1},
+                {0, 0, 0, 1, 0, 0, 1, 0},
+                {1, 1, 0, 1, 0, 0, 1, 1},
+                {0, 0, 0, 0, 1, 0, 1, 0},
                 {0, 1, 0, 0, 1, 0, 1, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0}
         };
@@ -29,14 +28,12 @@ public class PuzzleAlgorithmTest {
         Board subBoard = puzzleAlgorithm.execute(puzzle);
 
         int[][] terrainExpectedOutput = {
-                {0, 1, 1, 0}
+                {0, 0, 0, 0}
         };
 
-        // todo this equals is not working right, should be false, but it succeeds atm
         Assert.assertEquals(new Board(new IntegerArray2D(terrainExpectedOutput), false), subBoard);
     }
 
-    // todo rewrite test with finished algorithm implementation
     @Test
     public void testAlgorithmWithTwoDimensionalSubBoard() throws PuzzleNoSolutionException {
         int[][] terrainInput = {
@@ -54,17 +51,28 @@ public class PuzzleAlgorithmTest {
         Board subBoard = puzzleAlgorithm.execute(puzzle);
 
         int[][] terrainExpectedOutput = {
+                {0, 1},
                 {0, 0},
-                {0, 1},
-                {0, 1},
-                {1, 0},
+                {0, 0}
         };
 
-        // todo this equals is not working right, should be false, but it succeeds atm
         Assert.assertEquals(new Board(new IntegerArray2D(terrainExpectedOutput), false), subBoard);
     }
 
-    // todo test which ends outside and it matters
-    // todo test that ends exactly at the border
-    // todo test puzzle with no solution error thrown
+    @Test(expected = PuzzleNoSolutionException.class)
+    public void testAlgorithmWithNoSolution() throws PuzzleNoSolutionException {
+        int[][] terrainInput = {
+                {0, 0, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 1, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 1},
+                {1, 0, 1, 1, 0, 0, 1, 0},
+                {1, 0, 0, 1, 0, 0, 1, 1},
+                {1, 1, 0, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0}
+        };
+
+        Puzzle puzzle = new Puzzle(1, 3, 4, new Board(new IntegerArray2D(terrainInput), true));
+        puzzleAlgorithm.execute(puzzle);
+    }
 }

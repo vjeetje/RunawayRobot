@@ -55,13 +55,14 @@ public class Board {
     @Override
     public boolean equals(Object object) {
         if (object != null && object instanceof Board) {
-            // todo check for size first!
-            return IntStream.range(0, getWidth() - 1)
-                    .allMatch(i -> IntStream.range(0, getHeight() - 1)
-                            .allMatch(j -> isPassable(new Position(i, j)) == ((Board) object).isPassable(new Position(i, j))));
-        } else {
-            return false;
+            Board board = ((Board) object);
+            if (getWidth() == board.getWidth() && getHeight() == board.getHeight()) {
+                return IntStream.range(0, getWidth() - 1)
+                        .allMatch(i -> IntStream.range(0, getHeight() - 1)
+                                .allMatch(j -> isPassable(new Position(i, j)) == board.isPassable(new Position(i, j))));
+            }
         }
+        return false;
     }
 
     @Override
