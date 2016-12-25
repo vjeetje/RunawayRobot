@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Component
 public class PuzzlePostprocessor {
-    public static final String MOVE_RIGHT = "R";
-    public static final String MOVE_DOWN = "D";
+    private static final String MOVE_RIGHT = "R";
+    private static final String MOVE_DOWN = "D";
 
     /**
      * extract the path from the sub board

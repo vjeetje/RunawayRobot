@@ -10,8 +10,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "runawayRobot.progress")
 public class ProgressProperties {
-    /**
-     * The level of the first puzzle to solve
-     */
-    private int level;
+    private Level level;
+
+    @Getter
+    @Setter
+    public static class Level {
+        /**
+         * The level of the first puzzle to solve
+         */
+        private int min;
+
+        /**
+         * The level of the last puzzle to solve
+         */
+        private int max;
+    }
 }

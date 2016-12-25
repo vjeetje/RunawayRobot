@@ -1,6 +1,9 @@
 package xavier.rasschaert.hacker.org.network;
 
 import lombok.NonNull;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 import xavier.rasschaert.hacker.org.exception.PuzzleParseException;
 import xavier.rasschaert.hacker.org.model.Board;
@@ -15,8 +18,8 @@ import java.util.stream.IntStream;
 
 @Component
 public class PuzzleParser {
-
     private static final String REGEXP_VALID_PUZZLE = "^FVterrainString=([.X]*)&FVinsMax=([\\d]*)&FVinsMin=([\\d]*)&FVboardX=([\\d]*)&FVboardY=([\\d]*)&FVlevel=([\\d]*)$";
+    private static final String CSS_SELECTOR_FLASHVARS = "object>param[name=FlashVars]";
 
     private static final char IMPASSABLE_LOCATION = 'X';
 
@@ -28,13 +31,30 @@ public class PuzzleParser {
     private static final int INDEX_LEVEL = 5;
 
     /**
+     * parses the challenge page of a puzzle to a {@link Puzzle}.
+     *
+     * @param doc the document of the challenge page
+     * @return the {@link Puzzle}
+     * @throws PuzzleParseException on a puzzle parse exception
+     */
+    Puzzle parsePuzzle(@NonNull Document doc) throws PuzzleParseException {
+        doc = uncomment(doc);
+        Element el = doc.select(CSS_SELECTOR_FLASHVARS).first();
+        if (el == null) {
+            throw new PuzzleParseException("No object with param FlashVars was found.");
+        } else {
+            return parsePuzzle(el.val());
+        }
+    }
+
+    /**
      * parses a raw String representation of a puzzle to a {@link Puzzle}.
      *
      * @param rawPuzzle the raw puzzle String
      * @return the {@link Puzzle}
      * @throws PuzzleParseException on a puzzle parse exception
      */
-    public Puzzle parsePuzzle(@NonNull String rawPuzzle) throws PuzzleParseException {
+    private Puzzle parsePuzzle(@NonNull String rawPuzzle) throws PuzzleParseException {
         List<String> parameters = parseParameters(rawPuzzle);
         int level = Integer.valueOf(parameters.get(INDEX_LEVEL));
         int minMoves = Integer.valueOf(parameters.get(INDEX_MIN_MOVES));
@@ -64,5 +84,15 @@ public class PuzzleParser {
                         .toArray())
                 .toArray(int[][]::new);
         return new Board(new IntegerArray2D(values), true);
+    }
+
+    /**
+     * puzzles over level 100 have their puzzle description inside an html comment
+     *
+     * @param doc the document
+     * @return the document with everything uncommented
+     */
+    private Document uncomment(@NonNull Document doc) {
+        return Jsoup.parse(doc.html().replace("<!--", "").replace("-->", ""));
     }
 }

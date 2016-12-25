@@ -14,7 +14,7 @@ public class PuzzlePreprocessor {
      * Mark positions that can never be reached as impassible.
      *
      * @param board the board
-     * @Param isSubBoard is the board a sub board
+     * @param isSubBoard is the board a sub board
      */
     public void preprocess(@NonNull Board board, boolean isSubBoard) {
         Set<Position> unprocessedPositions = board.getPassableLocations();
